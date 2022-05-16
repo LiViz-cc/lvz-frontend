@@ -13,6 +13,8 @@ const Header: FC = () => {
     const { pathname } = location;
     if (pathname.startsWith('/console')) {
       setCurrent('console');
+    } else if (pathname.startsWith('/demo')) {
+      setCurrent('demo');
     } else if (pathname.startsWith('/')) {
       setCurrent('home');
     }
@@ -30,6 +32,7 @@ const Header: FC = () => {
       >
         <Menu.Item key="home"><Link to="/">Home</Link></Menu.Item>
         <Menu.Item key="console"><Link to="/console">Console</Link></Menu.Item>
+        <Menu.Item key="demo"><Link to="/demo">Demo</Link></Menu.Item>
       </Menu>
     </Layout.Header>
   );
