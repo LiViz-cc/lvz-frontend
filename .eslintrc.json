@@ -34,6 +34,5 @@
         "@typescript-eslint/no-unused-vars": "warn",
         "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
         "react/function-component-definition": "off",
-        "linebreak-style":[0,"error","window"]
     }
 }
