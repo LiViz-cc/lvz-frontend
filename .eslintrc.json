@@ -33,6 +33,6 @@
         "no-unused-vars": "warn",
         "@typescript-eslint/no-unused-vars": "warn",
         "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
-        "react/function-component-definition": "off",
+        "react/function-component-definition": "off"
     }
 }

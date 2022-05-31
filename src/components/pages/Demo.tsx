@@ -548,7 +548,7 @@ const Demo: FC = () => {
                 <Input />
               </Form.Item>
               <Form.Item
-                label="Echarts Option"
+                label="Line-style"
                 name="echarts_option"
                 rules={[{ required: true, message: 'Please input echarts option!' }]}
               >
