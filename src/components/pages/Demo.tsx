@@ -3,13 +3,54 @@ import React, { FC, useEffect, useState } from 'react';
 import axios from 'axios';
 import * as echarts from 'echarts';
 import {
-  Typography, Form, Input, Checkbox, Button, Tabs, Table,
+  Typography, Form, Input, Checkbox, Button, Tabs, Table, Tag,
+  Select, Slider, Row, Col,
 } from 'antd';
+import FormItem from 'antd/lib/form/FormItem';
 
 const { Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
 const { Column } = Table;
 
+const colorOptions = [
+  {
+    value: 'gold',
+  },
+  {
+    value: 'lime',
+  },
+  {
+    value: 'green',
+  },
+  {
+    value: 'cyan',
+  },
+];
+
+const tagRender = (props: any) => {
+  const {
+    label, value, closable, onClose,
+  } = props;
+
+  const onPreventMouseDown = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  return (
+    <Tag
+      color={value}
+      onMouseDown={onPreventMouseDown}
+      closable={closable}
+      onClose={onClose}
+      style={{
+        marginRight: 3,
+      }}
+    >
+      {label}
+    </Tag>
+  );
+};
 type User = {
   _id: {
     $oid: string
@@ -525,44 +566,121 @@ const Demo: FC = () => {
             <div>{`selected data source: ${JSON.stringify(selectedDataSource)}`}</div>
             <Title level={2}>02 Display Schema</Title>
             <Title level={3}>Create New Display Schema...</Title>
-            <Form
-              name="new_display_schema"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-              initialValues={{ remember: true }}
-              onFinish={createDisplaySchema}
-              autoComplete="off"
-              style={{ width: '400px' }}
-            >
-              <Form.Item
-                label="Name"
-                name="name"
-                rules={[{ required: true, message: 'Please input display schema name!' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Description"
-                name="description"
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Line-style"
-                name="echarts_option"
-                rules={[{ required: true, message: 'Please input echarts option!' }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item name="public" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-                <Checkbox>Make It Public</Checkbox>
-              </Form.Item>
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
+            <Tabs defaultActiveKey="histogram">
+              <TabPane tab="Histogram" key="histogram">
+                <Form
+                  name="new_histogram_schema"
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 16 }}
+                  initialValues={{ remember: true }}
+                  onFinish={createDisplaySchema}
+                  autoComplete="off"
+                  style={{ width: '400px' }}
+                >
+                  <Form.Item
+                    label="Name"
+                    name="name"
+                    rules={[{ required: true, message: 'Please input display schema name!' }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Description"
+                    name="description"
+                  >
+                    <Input />
+                  </Form.Item>
+                  <div>itemStyle:</div>
+                  <Form.Item
+                    label="Color"
+                    name="color"
+                  >
+                    <Select
+                      mode="multiple"
+                      showArrow
+                      tagRender={tagRender}
+                      defaultValue={['gold', 'cyan']}
+                      style={{
+                        width: '100%',
+                      }}
+                      options={colorOptions}
+                    />
+                  </Form.Item>
+                  <FormItem
+                    label="Bar Width"
+                    name="barWidth"
+                  >
+                    <Row>
+                      <Col span={12}>
+                        <Slider
+                          min={0}
+                          max={3}
+                          step={0.01}
+                        />
+                      </Col>
+                    </Row>
+                  </FormItem>
+                  <Form.Item name="public" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
+                    <Checkbox>Make It Public</Checkbox>
+                  </Form.Item>
+                  <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button type="primary" htmlType="submit">
+                      Submit
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </TabPane>
+              <TabPane tab="Line chart" key="line_chart">
+                <Form
+                  name="new_line_chart_schema"
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 16 }}
+                  initialValues={{ remember: true }}
+                  onFinish={createDisplaySchema}
+                  autoComplete="off"
+                  style={{ width: '400px' }}
+                >
+                  <Form.Item
+                    label="Name"
+                    name="name"
+                    rules={[{ required: true, message: 'Please input display schema name!' }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Description"
+                    name="description"
+                  >
+                    <Input />
+                  </Form.Item>
+                  <div>itemStyle:</div>
+                  <Form.Item
+                    label="Color"
+                    name="color"
+                  >
+                    <Select
+                      mode="multiple"
+                      showArrow
+                      tagRender={tagRender}
+                      defaultValue={['gold', 'cyan']}
+                      style={{
+                        width: '100%',
+                      }}
+                      options={colorOptions}
+                    />
+                  </Form.Item>
+                  <Form.Item name="public" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
+                    <Checkbox>Make It Public</Checkbox>
+                  </Form.Item>
+                  <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button type="primary" htmlType="submit">
+                      Submit
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </TabPane>
+            </Tabs>
+
             <Title level={3}>...or Select Display Schema</Title>
             <Tabs defaultActiveKey="private" onChange={handleDisplaySchemaTabChange}>
               <TabPane tab="Created By Myself" key="private">
