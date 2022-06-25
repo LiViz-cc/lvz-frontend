@@ -36,6 +36,7 @@ const Header: FC = () => {
         <Menu.Item key="console"><Link to="/console">Console</Link></Menu.Item>
         <Menu.Item key="demo"><Link to="/demo">Demo</Link></Menu.Item>
         <Menu.Item key="parser"><Link to="/parser">Parser</Link></Menu.Item>
+        <Menu.Item key="login"><Link to="/login">Login</Link></Menu.Item>
       </Menu>
     </Layout.Header>
   );
