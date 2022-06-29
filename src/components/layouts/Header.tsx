@@ -17,6 +17,8 @@ const Header: FC = () => {
       setCurrent('demo');
     } else if (pathname.startsWith('/parser')) {
       setCurrent('parser');
+    } else if (pathname.startsWith('/login')) {
+      setCurrent('login');
     } else if (pathname.startsWith('/')) {
       setCurrent('home');
     }
