@@ -31,11 +31,14 @@ on:
     branches:
       - master
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 env:
   AWS_REGION: us-west-1                            # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: lvz-frontend                     # set this to your Amazon ECR repository name
-  ECS_SERVICE: lvz-frontend-service-with-lb        # set this to your Amazon ECS service name
-  ECS_CLUSTER: lvz-frontend-cluster                # set this to your Amazon ECS cluster name
+  ECS_SERVICE: lvz-frontend-service                # set this to your Amazon ECS service name
+  ECS_CLUSTER: lvz                                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: .aws/task-definition.json   # set this to the path to your Amazon ECS task definition
                                                     # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: lvz-frontend                     # set this to the name of the container in the
@@ -65,6 +68,14 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Create `.env.local` file
+      id: create-dot-env-local
+      run: |
+        cat > .env.local << __EOF__
+        REACT_APP_SITE_DOMAIN="liviz.cc"
+        REACT_APP_BACKEND_URL="http://api.liviz.cc"
+        __EOF__
+
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
@@ -85,6 +96,11 @@ jobs:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
+
+    - name: Stop task started by this service
+      id: stop-task
+      run: |
+        aws ecs list-tasks --cluster ${{ env.ECS_CLUSTER }} --service-name ${{ env.ECS_SERVICE }} | grep arn | sed 's/^.*"\(.*\)",*$/\1/' | xargs aws ecs stop-task --cluster ${{ env.ECS_CLUSTER }} --reason github-actions-deploy --task | xargs echo
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
