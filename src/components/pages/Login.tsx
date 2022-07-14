@@ -4,7 +4,7 @@ import axios from 'axios';
 import * as echarts from 'echarts';
 import {
   Typography, Form, Input, Checkbox, Button, Tabs, Table, Tag,
-  Select, Slider, Row, Col,
+  Select, Slider, Row, Col, Modal,
 } from 'antd';
 import FormItem from 'antd/lib/form/FormItem';
 
@@ -24,6 +24,20 @@ type User = {
 const Login: FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const login = (values: any) => {
     axios
@@ -50,53 +64,58 @@ const Login: FC = () => {
 
   return (
     <Typography>
-      <Title level={2}>Log In</Title>
-      <Paragraph>
-        {
-          user
-            ? (
-              <div>
-                <p>
-                  {`Welcome ${user.email}!`}
-                </p>
-                <p>
-                  {`User id: ${user._id.$oid}`}
-                </p>
-              </div>
-            )
-            : (
-              <Form
-                name="login"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
-                initialValues={{ remember: true }}
-                onFinish={login}
-                autoComplete="off"
-                style={{ width: '400px' }}
-              >
-                <Form.Item
-                  label="Email"
-                  name="email"
-                  rules={[{ required: true, message: 'Please input your email address!' }]}
+      <Button type="primary" onClick={showModal}>
+        Login
+      </Button>
+      <Modal title="Login" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Title level={2}>Log In</Title>
+        <Paragraph>
+          {
+            user
+              ? (
+                <div>
+                  <p>
+                    {`Welcome ${user.email}!`}
+                  </p>
+                  <p>
+                    {`User id: ${user._id.$oid}`}
+                  </p>
+                </div>
+              )
+              : (
+                <Form
+                  name=""
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 16 }}
+                  initialValues={{ remember: true }}
+                  onFinish={login}
+                  autoComplete="off"
+                  style={{ width: '400px' }}
                 >
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  label="Password"
-                  name="password"
-                  rules={[{ required: true, message: 'Please input your password!' }]}
-                >
-                  <Input.Password />
-                </Form.Item>
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                  <Button type="primary" htmlType="submit">
-                    Submit
-                  </Button>
-                </Form.Item>
-              </Form>
-            )
-        }
-      </Paragraph>
+                  <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[{ required: true, message: 'Please input your email address!' }]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[{ required: true, message: 'Please input your password!' }]}
+                  >
+                    <Input.Password />
+                  </Form.Item>
+                  <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button type="primary" htmlType="submit">
+                      Submit
+                    </Button>
+                  </Form.Item>
+                </Form>
+              )
+          }
+        </Paragraph>
+      </Modal>
       <Title level={2}>Sign Up</Title>
       <Form
         name="signup"
