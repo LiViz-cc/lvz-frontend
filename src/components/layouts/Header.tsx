@@ -71,6 +71,7 @@ const Header: FC = () => {
         LiViz
       </div>
       <Menu
+        className="nav"
         theme="dark"
         mode="horizontal"
         selectedKeys={[current]}
@@ -79,12 +80,12 @@ const Header: FC = () => {
         <Menu.Item key="console"><Link to="/console">Console</Link></Menu.Item>
         <Menu.Item key="demo"><Link to="/demo">Demo</Link></Menu.Item>
         <Menu.Item key="parser"><Link to="/parser">Parser</Link></Menu.Item>
-        <Menu.Item key="login">
-          <Button type="primary" onClick={showModal}>
-            Login
-          </Button>
-        </Menu.Item>
       </Menu>
+      <div className="user-zone">
+        <Button type="primary" onClick={showModal} style={{ display: 'inline' }}>
+          Login
+        </Button>
+      </div>
       <Modal title="Login" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <Title level={2}>Log In</Title>
         {
