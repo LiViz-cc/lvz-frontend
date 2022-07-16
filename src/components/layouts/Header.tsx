@@ -79,11 +79,9 @@ const Header: FC = () => {
         <Menu.Item key="console"><Link to="/console">Console</Link></Menu.Item>
         <Menu.Item key="demo"><Link to="/demo">Demo</Link></Menu.Item>
         <Menu.Item key="parser"><Link to="/parser">Parser</Link></Menu.Item>
-        <Menu.Item key="login">
-          <Button type="primary" onClick={showModal}>
-            Login
-          </Button>
-        </Menu.Item>
+        <Button type="primary" onClick={showModal}>
+          Login
+        </Button>
       </Menu>
       <Modal title="Login" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <Title level={2}>Log In</Title>
