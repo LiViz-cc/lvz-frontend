@@ -1,5 +1,6 @@
-import { getProjects } from './project';
+import { getProjects, getProjectById } from './project';
 
 export default {
   getProjects,
+  getProjectById,
 };
