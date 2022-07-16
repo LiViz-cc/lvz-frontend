@@ -1,7 +1,6 @@
 import getServer from './getServer';
-import type { ProjectRaw } from '../models';
+import type { ProjectRaw, ObjectId } from '../models';
 import { polishProjectRaw } from '../models';
-import type { ObjectId } from '../models/fields';
 
 export const getProjects = () => getServer()
   .get<ProjectRaw[]>('/projects')
