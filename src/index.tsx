@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import type { RootState, AppDispatch } from './redux/store';
 
-import './index.scss';
+import './index.css';
 
 import App from './App';
 
