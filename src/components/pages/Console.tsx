@@ -55,6 +55,12 @@ const Console: FC = () => {
     }
   }, [itemSelected]);
 
+  const menuItems = [
+    { label: 'Project', key: 'project', icon: <AppstoreOutlined /> },
+    { label: 'Data Source', key: 'data_source', icon: <DatabaseOutlined /> },
+    { label: 'Display Schema', key: 'display_schema', icon: <LineChartOutlined /> },
+  ];
+
   const handleMenuItemClick = ({ key }: { key: string }) => {
     if (['project', 'data_source', 'display_schema'].includes(key)) {
       setItemSelected(key as MenuItemKey);
@@ -66,14 +72,11 @@ const Console: FC = () => {
       <Sider>
         <Menu
           mode="inline"
+          items={menuItems}
           defaultSelectedKeys={['project']}
           style={{ height: '100%' }}
           onClick={handleMenuItemClick}
-        >
-          <Menu.Item key="project" icon={<AppstoreOutlined />}>Project</Menu.Item>
-          <Menu.Item key="data_source" icon={<DatabaseOutlined />}>Data Source</Menu.Item>
-          <Menu.Item key="display_schema" icon={<LineChartOutlined />}>Display Schema</Menu.Item>
-        </Menu>
+        />
       </Sider>
       <Content style={{ padding: '0 24px' }}>
         <div>
