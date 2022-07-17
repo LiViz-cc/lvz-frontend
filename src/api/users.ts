@@ -1,5 +1,6 @@
+import type { AxiosResponse } from 'axios';
 import getServer from './getServer';
-import type { UserRaw, ObjectId } from '../models';
+import type { UserRaw, ObjectId, User } from '../models';
 import { polishUserRaw } from '../models';
 
 export const getUserById = (id: ObjectId) => getServer()
@@ -7,7 +8,7 @@ export const getUserById = (id: ObjectId) => getServer()
   .then((response) => {
     const userRaw = response.data;
     const user = polishUserRaw(userRaw);
-    return { data: user, response };
+    return { ...response, data: user } as AxiosResponse<User, any>;
   });
 
 export const updateUserPassword = (
@@ -19,5 +20,5 @@ export const updateUserPassword = (
   .then((response) => {
     const userRaw = response.data;
     const user = polishUserRaw(userRaw);
-    return { data: user, response };
+    return { ...response, data: user } as AxiosResponse<User, any>;
   });

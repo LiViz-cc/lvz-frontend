@@ -1,5 +1,11 @@
+import type { AxiosResponse } from 'axios';
 import getServer from './getServer';
-import type { LoginResponseRaw, UserRaw } from '../models';
+import type {
+  LoginResponse,
+  LoginResponseRaw,
+  User,
+  UserRaw,
+} from '../models';
 import { polishLoginResponseRaw, polishUserRaw } from '../models';
 
 export const login = (email: string, password: string) => getServer()
@@ -7,7 +13,7 @@ export const login = (email: string, password: string) => getServer()
   .then((response) => {
     const loginResponseRaw = response.data;
     const loginResponse = polishLoginResponseRaw(loginResponseRaw);
-    return { data: loginResponse, response };
+    return { ...response, data: loginResponse } as AxiosResponse<LoginResponse, any>;
   });
 
 export const signup = (email: string, password: string) => getServer()
@@ -15,5 +21,5 @@ export const signup = (email: string, password: string) => getServer()
   .then((response) => {
     const userRaw = response.data;
     const user = polishUserRaw(userRaw);
-    return { data: user, response };
+    return { ...response, data: user } as AxiosResponse<User, any>;
   });

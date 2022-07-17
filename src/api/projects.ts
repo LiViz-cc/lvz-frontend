@@ -1,5 +1,6 @@
+import type { AxiosResponse } from 'axios';
 import getServer from './getServer';
-import type { ProjectRaw, ObjectId } from '../models';
+import type { Project, ProjectRaw, ObjectId } from '../models';
 import { polishProjectRaw } from '../models';
 
 export const getProjects = () => getServer()
@@ -7,7 +8,7 @@ export const getProjects = () => getServer()
   .then((response) => {
     const projectRaws = response.data;
     const projects = projectRaws.map((projectRaw) => polishProjectRaw(projectRaw));
-    return { data: projects, response };
+    return { ...response, data: projects } as AxiosResponse<Project[], any>;
   });
 
 export const getProjectById = (id: ObjectId) => getServer()
@@ -15,5 +16,5 @@ export const getProjectById = (id: ObjectId) => getServer()
   .then((response) => {
     const projectRaw = response.data;
     const project = polishProjectRaw(projectRaw);
-    return { data: project, response };
+    return { ...response, data: project } as AxiosResponse<Project, any>;
   });
