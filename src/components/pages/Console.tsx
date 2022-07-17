@@ -3,30 +3,12 @@ import {
   Layout, Menu, Card, Row, Col, message,
 } from 'antd';
 import { AppstoreOutlined, DatabaseOutlined, LineChartOutlined } from '@ant-design/icons';
-import { sleep } from '../../utils';
+import type { Project } from '../../models';
+import { getProjects } from '../../api/projects';
 
 const { Sider, Content } = Layout;
 
 type MenuItemKey = 'project' | 'data_source' | 'display_schema';
-type Project = {
-  _id: {
-    $oid: string
-  },
-  name: string,
-  data_source: {
-    $oid: string
-  },
-  display_schema: {
-    $oid: string
-  },
-};
-
-const mockProjects = Array.from(Array(10).keys()).map((id) => ({
-  _id: { $oid: `mock_id_${id}` },
-  name: `mock_project_${id}`,
-  data_source: { $oid: '' },
-  display_schema: { $oid: '' },
-}));
 
 const Console: FC = () => {
   const [itemSelected, setItemSelected] = useState<MenuItemKey>('project');
@@ -35,13 +17,18 @@ const Console: FC = () => {
 
   // when `itemSelected` changed
   useEffect(() => {
-    const fetchProjects = async () => {
-      // TODO: fetch projects from backend api
+    const fetchProjects = () => {
       setLoading(true);
-      // get mock data
-      await sleep(500);
-      const newProjects = mockProjects;
-      setProjects(newProjects);
+      getProjects()
+        .then((response) => {
+          const newProjects = response.data;
+          setProjects(newProjects);
+        })
+        .catch((error) => {
+          const errorData = error?.response?.data;
+          message.error(errorData);
+          console.log(errorData);
+        });
       setLoading(false);
     };
     const fetchDataSources = () => {
@@ -94,14 +81,12 @@ const Console: FC = () => {
             {
               // TODO: support dataSources and displaySchemas
               projects.map((project) => (
-                // eslint-disable-next-line no-underscore-dangle
-                <Col key={project._id.$oid} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
+                <Col key={project.id} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
                   <Card
                     bordered={false}
                     hoverable
                     loading={loading}
-                    // eslint-disable-next-line no-underscore-dangle
-                    onClick={() => console.log(project._id.$oid)}
+                    onClick={() => console.log(project.id)}
                   >
                     <Card.Meta
                       title={project.name}
