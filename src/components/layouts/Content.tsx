@@ -8,6 +8,8 @@ import Console from '../pages/Console';
 import Demo from '../pages/Demo';
 import Parser from '../pages/Parser';
 
+import './Context.scss';
+
 const Content: FC = () => (
   <Layout.Content className="lvz-content">
     <Routes>
