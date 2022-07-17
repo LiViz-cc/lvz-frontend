@@ -2,14 +2,14 @@ import React, { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import ProjectEditor from '../common/ProjectEditor';
 
+import './ProjectEdit.scss';
+
 const ProjectEdit: FC = () => {
   const { id } = useParams(); // id could not be empty string
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
-      {
-        id && <ProjectEditor id={id} />
-      }
+    <div className="project-edit">
+      {id && <ProjectEditor id={id} />}
     </div>
   );
 };
