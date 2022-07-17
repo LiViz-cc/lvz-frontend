@@ -1,10 +1,9 @@
 import React, { FC, useState, useEffect } from 'react';
-import {
-  Layout, Menu, Card, Row, Col, message,
-} from 'antd';
+import { Layout, Menu, message } from 'antd';
 import { AppstoreOutlined, DatabaseOutlined, LineChartOutlined } from '@ant-design/icons';
 import type { Project } from '../../models';
 import { getProjects } from '../../api/projects';
+import ProjectsGrid from '../common/ProjectsGrid';
 
 const { Sider, Content } = Layout;
 
@@ -28,8 +27,10 @@ const Console: FC = () => {
           const errorData = error?.response?.data;
           message.error(errorData);
           console.log(errorData);
+        })
+        .finally(() => {
+          setLoading(false);
         });
-      setLoading(false);
     };
     const fetchDataSources = () => {
       // TODO: fetch data sources from backend api
@@ -79,28 +80,10 @@ const Console: FC = () => {
         />
       </Sider>
       <Content style={{ padding: '0 24px' }}>
-        <div>
-          <Row gutter={[16, 16]}>
-            {
-              // TODO: support dataSources and displaySchemas
-              projects.map((project) => (
-                <Col key={project.id} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
-                  <Card
-                    bordered={false}
-                    hoverable
-                    loading={loading}
-                    onClick={() => console.log(project.id)}
-                  >
-                    <Card.Meta
-                      title={project.name}
-                      description={project.name}
-                    />
-                  </Card>
-                </Col>
-              ))
-            }
-          </Row>
-        </div>
+        {
+          // TODO: support dataSources and displaySchemas
+          itemSelected === 'project' && <ProjectsGrid projects={projects} loading={loading} />
+        }
       </Content>
     </Layout>
   );
