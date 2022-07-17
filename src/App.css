@@ -10,11 +10,19 @@
   min-height: 100%;
 }
 
+.lvz-header {
+  display: flex;
+}
+
 .lvz-header .logo {
   float: left;
   color: white;
   padding: 0 20px;
   font-weight: bold;
+}
+
+.lvz-header .nav {
+  flex: auto;
 }
 
 .lvz-content {
