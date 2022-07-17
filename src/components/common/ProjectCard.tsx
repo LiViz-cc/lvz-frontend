@@ -3,6 +3,7 @@ import type { FC, MouseEventHandler } from 'react';
 import { Card } from 'antd';
 import { InfoCircleOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import type { Project } from '../../models';
+import { dateTsToStr } from '../../utils';
 
 type ProjectCardProps = {
   project: Project,
@@ -28,8 +29,8 @@ const ProjectCard: FC<ProjectCardProps> = (props: ProjectCardProps) => {
         title={project.name}
         description={(
           <div>
-            <div>{`Created: ${project.created}`}</div>
-            <div>{`Modified: ${project.modified}`}</div>
+            <div>{`Created: ${dateTsToStr(project.created)}`}</div>
+            <div>{`Modified: ${dateTsToStr(project.modified)}`}</div>
             <div>{`Created By: ${project.created_by}`}</div>
           </div>
         )}
