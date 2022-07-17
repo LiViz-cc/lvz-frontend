@@ -1,6 +1,7 @@
 import React from 'react';
 import type { FC, MouseEventHandler } from 'react';
 import { Card } from 'antd';
+import { InfoCircleOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import type { Project } from '../../models';
 
 type ProjectCardProps = {
@@ -17,10 +18,21 @@ const ProjectCard: FC<ProjectCardProps> = (props: ProjectCardProps) => {
       hoverable
       loading={loading}
       onClick={onClick}
+      actions={[
+        <InfoCircleOutlined key="info" />,
+        <EditOutlined key="edit" />,
+        <EllipsisOutlined key="ellipsis" />,
+      ]}
     >
       <Card.Meta
         title={project.name}
-        description={project.name}
+        description={(
+          <div>
+            <div>{`Created: ${project.created}`}</div>
+            <div>{`Modified: ${project.modified}`}</div>
+            <div>{`Created By: ${project.created_by}`}</div>
+          </div>
+        )}
       />
     </Card>
   );
