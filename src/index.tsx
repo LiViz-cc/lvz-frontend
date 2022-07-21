@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import {
+  TypedUseSelectorHook, useDispatch, useSelector,
+  Provider,
+} from 'react-redux';
+import store from './redux/store';
 import reportWebVitals from './reportWebVitals';
-
-import type { RootState, AppDispatch } from './redux/store';
+// import type { RootState, AppDispatch } from './redux/store';
 
 import './index.css';
 
@@ -15,9 +18,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   // <React.StrictMode>
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   // </React.StrictMode>,
 );
 
