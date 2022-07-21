@@ -1,0 +1,11 @@
+@import '~antd/dist/antd.css';
+
+#root {
+  height: 100%;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}

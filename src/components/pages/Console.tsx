@@ -1,32 +1,13 @@
 import React, { FC, useState, useEffect } from 'react';
-import {
-  Layout, Menu, Card, Row, Col, message,
-} from 'antd';
+import { Layout, Menu, message } from 'antd';
 import { AppstoreOutlined, DatabaseOutlined, LineChartOutlined } from '@ant-design/icons';
-import { sleep } from '../../utils';
+import type { Project } from '../../models';
+import { getProjects } from '../../api/projects';
+import ProjectsGrid from '../common/ProjectsGrid';
 
 const { Sider, Content } = Layout;
 
 type MenuItemKey = 'project' | 'data_source' | 'display_schema';
-type Project = {
-  _id: {
-    $oid: string
-  },
-  name: string,
-  data_source: {
-    $oid: string
-  },
-  display_schema: {
-    $oid: string
-  },
-};
-
-const mockProjects = Array.from(Array(10).keys()).map((id) => ({
-  _id: { $oid: `mock_id_${id}` },
-  name: `mock_project_${id}`,
-  data_source: { $oid: '' },
-  display_schema: { $oid: '' },
-}));
 
 const Console: FC = () => {
   const [itemSelected, setItemSelected] = useState<MenuItemKey>('project');
@@ -35,14 +16,21 @@ const Console: FC = () => {
 
   // when `itemSelected` changed
   useEffect(() => {
-    const fetchProjects = async () => {
-      // TODO: fetch projects from backend api
+    const fetchProjects = () => {
       setLoading(true);
-      // get mock data
-      await sleep(500);
-      const newProjects = mockProjects;
-      setProjects(newProjects);
-      setLoading(false);
+      getProjects()
+        .then((response) => {
+          const newProjects = response.data;
+          setProjects(newProjects);
+        })
+        .catch((error) => {
+          const errorData = error?.response?.data;
+          message.error(errorData);
+          console.log(errorData);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     };
     const fetchDataSources = () => {
       // TODO: fetch data sources from backend api
@@ -68,6 +56,12 @@ const Console: FC = () => {
     }
   }, [itemSelected]);
 
+  const menuItems = [
+    { label: 'Project', key: 'project', icon: <AppstoreOutlined /> },
+    { label: 'Data Source', key: 'data_source', icon: <DatabaseOutlined /> },
+    { label: 'Display Schema', key: 'display_schema', icon: <LineChartOutlined /> },
+  ];
+
   const handleMenuItemClick = ({ key }: { key: string }) => {
     if (['project', 'data_source', 'display_schema'].includes(key)) {
       setItemSelected(key as MenuItemKey);
@@ -79,40 +73,17 @@ const Console: FC = () => {
       <Sider>
         <Menu
           mode="inline"
+          items={menuItems}
           defaultSelectedKeys={['project']}
           style={{ height: '100%' }}
           onClick={handleMenuItemClick}
-        >
-          <Menu.Item key="project" icon={<AppstoreOutlined />}>Project</Menu.Item>
-          <Menu.Item key="data_source" icon={<DatabaseOutlined />}>Data Source</Menu.Item>
-          <Menu.Item key="display_schema" icon={<LineChartOutlined />}>Display Schema</Menu.Item>
-        </Menu>
+        />
       </Sider>
       <Content style={{ padding: '0 24px' }}>
-        <div>
-          <Row gutter={[16, 16]}>
-            {
-              // TODO: support dataSources and displaySchemas
-              projects.map((project) => (
-                // eslint-disable-next-line no-underscore-dangle
-                <Col key={project._id.$oid} xs={24} sm={12} md={8} lg={8} xl={6} xxl={6}>
-                  <Card
-                    bordered={false}
-                    hoverable
-                    loading={loading}
-                    // eslint-disable-next-line no-underscore-dangle
-                    onClick={() => console.log(project._id.$oid)}
-                  >
-                    <Card.Meta
-                      title={project.name}
-                      description={project.name}
-                    />
-                  </Card>
-                </Col>
-              ))
-            }
-          </Row>
-        </div>
+        {
+          // TODO: support dataSources and displaySchemas
+          itemSelected === 'project' && <ProjectsGrid projects={projects} loading={loading} />
+        }
       </Content>
     </Layout>
   );

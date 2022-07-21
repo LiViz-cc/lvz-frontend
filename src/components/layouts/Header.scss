@@ -1,0 +1,13 @@
+.lvz-header {
+  display: flex;
+
+  .logo {
+    color: white;
+    padding: 0 20px;
+    font-weight: bold;
+  }
+
+  .nav {
+    flex: auto;
+  }
+}

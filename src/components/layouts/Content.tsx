@@ -7,7 +7,8 @@ import Home from '../pages/Home';
 import Console from '../pages/Console';
 import Demo from '../pages/Demo';
 import Parser from '../pages/Parser';
-import Login from '../pages/Login';
+
+import './Content.scss';
 
 const Content: FC = () => (
   <Layout.Content className="lvz-content">
@@ -16,7 +17,6 @@ const Content: FC = () => (
       <Route element={<Console />} path="/console" />
       <Route element={<Demo />} path="/demo" />
       <Route element={<Parser />} path="/parser" />
-      <Route element={<Login />} path="/login" />
     </Routes>
   </Layout.Content>
 );

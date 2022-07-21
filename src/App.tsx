@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import './App.css';
+import './App.scss';
 
 import { Layout } from 'antd';
 

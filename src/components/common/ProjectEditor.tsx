@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import './ProjectEditor.css';
+import './ProjectEditor.scss';
 
 type ProjectEditorProps = {
   id: string
