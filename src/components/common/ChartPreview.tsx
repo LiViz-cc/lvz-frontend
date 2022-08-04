@@ -57,6 +57,16 @@ const ChartPreview: FC<ChartPreviewProps> = (props: ChartPreviewProps) => {
     chartPreview.setOption(chartOption, false);
   }, [chartPreview, chartOption]);
 
+  // when width or height change
+  // resize chart
+  useEffect(() => {
+    if (!chartPreview) {
+      // chart preview instance not ready, return
+      return;
+    }
+    chartPreview.resize();
+  }, [width, height]);
+
   return (
     <div id={`chart-preview-${previewId}`} style={{ width, height }} />
   );
