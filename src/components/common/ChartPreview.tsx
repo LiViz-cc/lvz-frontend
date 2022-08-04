@@ -36,7 +36,15 @@ const ChartPreview: FC<ChartPreviewProps> = (props: ChartPreviewProps) => {
     if (!newChartPreview) {
       return;
     }
+
+    // set chart preview
     setChartPreview(newChartPreview);
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      // clean up, dispose echart preview instance
+      newChartPreview.dispose();
+    };
   }, []);
 
   // when chart preview or chart option change
