@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -7,7 +8,6 @@ import {
 } from 'react-redux';
 import store from './redux/store';
 import reportWebVitals from './reportWebVitals';
-// import type { RootState, AppDispatch } from './redux/store';
 
 import './index.css';
 
@@ -16,6 +16,7 @@ import App from './App';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
+
 root.render(
   // <React.StrictMode>
   <Provider store={store}>
