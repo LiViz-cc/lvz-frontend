@@ -6,20 +6,23 @@ import {
   Layout, Menu, Modal, Form, Button, Typography, Input,
 } from 'antd';
 import './Header.scss';
+import { useSelector } from 'react-redux';
+import { login } from '../../api/auth';
+
+import type {
+  LoginResponse,
+  LoginResponseRaw,
+  User,
+  UserRaw,
+} from '../../models';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const { Title, Paragraph } = Typography;
 
-type User = {
-  _id: {
-    $oid: string
-  },
-  email: string,
-};
-
 const Header: FC = () => {
   // header menu current selected key
+  const loginStatus = useSelector((state: any) => state.loggedIn);
   const [current, setCurrent] = useState('');
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -37,7 +40,12 @@ const Header: FC = () => {
     setIsModalVisible(false);
   };
 
-  const login = (values: any) => {
+  const goLogin = async (values:{ email: string, password: string }) => {
+    const response = await login(values.email, values.password);
+    setToken(response.data.token);
+    setUser(response.data.user);
+  };
+  /*   const login = (values: any) => {
     axios
       .post(`${BACKEND_URL}/auth/login`, values)
       .then((response) => {
@@ -47,7 +55,7 @@ const Header: FC = () => {
       .catch((error) => {
         console.log(error);
       });
-  };
+  }; */
 
   // align header menu selected key with url path
   const location = useLocation();
@@ -81,6 +89,8 @@ const Header: FC = () => {
         <Menu.Item key="console"><Link to="/console">Console</Link></Menu.Item>
         <Menu.Item key="demo"><Link to="/demo">Demo</Link></Menu.Item>
         <Menu.Item key="parser"><Link to="/parser">Parser</Link></Menu.Item>
+        {/* {loginStatus ? <Menu.Item key="welcome"><Link to="/parser">welcome</Link></Menu.Item> */
+        /*   : <Menu.Item key="log"><Link to="/parser">login</Link></Menu.Item> } */}
       </Menu>
       <div className="user-zone">
         <Button type="primary" onClick={showModal} style={{ display: 'inline' }}>
@@ -97,7 +107,7 @@ const Header: FC = () => {
                     {`Welcome ${user.email}!`}
                   </p>
                   <p>
-                    {`User id: ${user._id.$oid}`}
+                    {`User id: ${user.id}`}
                   </p>
                 </div>
               )
@@ -107,7 +117,7 @@ const Header: FC = () => {
                   labelCol={{ span: 8 }}
                   wrapperCol={{ span: 16 }}
                   initialValues={{ remember: true }}
-                  onFinish={login}
+                  onFinish={goLogin}
                   autoComplete="off"
                   style={{ width: '400px' }}
                 >
