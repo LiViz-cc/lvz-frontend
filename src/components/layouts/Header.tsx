@@ -22,7 +22,7 @@ const { Title, Paragraph } = Typography;
 
 const Header: FC = () => {
   // header menu current selected key
-  const loginStatus = useSelector((state: any) => state.loggedIn);
+  const loginStatus = useSelector((state: any) => state.loggedStatus);
   const [current, setCurrent] = useState('');
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -89,8 +89,7 @@ const Header: FC = () => {
         <Menu.Item key="console"><Link to="/console">Console</Link></Menu.Item>
         <Menu.Item key="demo"><Link to="/demo">Demo</Link></Menu.Item>
         <Menu.Item key="parser"><Link to="/parser">Parser</Link></Menu.Item>
-        {/* {loginStatus ? <Menu.Item key="welcome"><Link to="/parser">welcome</Link></Menu.Item> */
-        /*   : <Menu.Item key="log"><Link to="/parser">login</Link></Menu.Item> } */}
+        {loginStatus && <Menu.Item key="welcome"><Link to="/parser">welcome</Link></Menu.Item>}
       </Menu>
       <div className="user-zone">
         <Button type="primary" onClick={showModal} style={{ display: 'inline' }}>
