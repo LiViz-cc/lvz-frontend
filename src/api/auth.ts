@@ -1,4 +1,5 @@
 import type { AxiosResponse } from 'axios';
+
 import getServer from './getServer';
 import type {
   LoginResponse,

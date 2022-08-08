@@ -2,11 +2,12 @@
 import React, { FC, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Layout, Menu, Modal, Form, Button, Typography, Input,
 } from 'antd';
+import { loggedIn, logOut } from '../../redux/slices/userSlice';
 import './Header.scss';
-import { useSelector } from 'react-redux';
 import { login } from '../../api/auth';
 
 import type {
@@ -41,9 +42,15 @@ const Header: FC = () => {
   };
 
   const goLogin = async (values:{ email: string, password: string }) => {
-    const response = await login(values.email, values.password);
-    setToken(response.data.token);
-    setUser(response.data.user);
+    try {
+      const response = await login(values.email, values.password);
+      setToken(response.data.token);
+      setUser(response.data.user);
+      const dispatch = useDispatch();
+      dispatch(loggedIn());
+    } catch (error) {
+      console.log(error);
+    }
   };
   /*   const login = (values: any) => {
     axios
@@ -89,7 +96,7 @@ const Header: FC = () => {
         <Menu.Item key="console"><Link to="/console">Console</Link></Menu.Item>
         <Menu.Item key="demo"><Link to="/demo">Demo</Link></Menu.Item>
         <Menu.Item key="parser"><Link to="/parser">Parser</Link></Menu.Item>
-        {loginStatus && <Menu.Item key="welcome"><Link to="/parser">welcome</Link></Menu.Item>}
+        {loginStatus ? <Menu.Item key="led"><Link to="/">welcome</Link></Menu.Item> : <Menu.Item key="nled"><Link to="/">please login</Link></Menu.Item>}
       </Menu>
       <div className="user-zone">
         <Button type="primary" onClick={showModal} style={{ display: 'inline' }}>
