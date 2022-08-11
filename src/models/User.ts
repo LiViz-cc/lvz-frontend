@@ -14,7 +14,7 @@ export interface UserRaw extends UserCommmon {
   _id: ObjectIdRaw;
   created: DateTsRaw;
   modified: DateTsRaw;
-  created_by: ObjectIdRaw;
+  /* created_by: ObjectIdRaw; */
   projects: ObjectIdRaw[];
   data_sources: ObjectIdRaw[];
 }
@@ -23,7 +23,7 @@ export interface User extends UserCommmon {
   id: ObjectId;
   created: DateTs;
   modified: DateTs;
-  created_by: ObjectId;
+  /* created_by: ObjectId; */
   projects: ObjectId[];
   data_sources: ObjectId[];
 }
@@ -35,7 +35,7 @@ export const polishUserRaw = (userRaw: UserRaw) => {
     email: userRaw.email,
     created: polishDateTsRaw(userRaw.created),
     modified: polishDateTsRaw(userRaw.modified),
-    created_by: polishObjectIdRaw(userRaw.created_by),
+    /* created_by: polishObjectIdRaw(userRaw.created_by), */
     projects: userRaw.projects.map((objectIdRaw) => polishObjectIdRaw(objectIdRaw)),
     data_sources: userRaw.data_sources.map((objectIdRaw) => polishObjectIdRaw(objectIdRaw)),
   };
