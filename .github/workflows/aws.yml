@@ -72,8 +72,8 @@ jobs:
       id: create-dot-env-local
       run: |
         cat > .env.local << __EOF__
-        REACT_APP_SITE_DOMAIN="liviz.cc"
-        REACT_APP_BACKEND_URL="https://api.liviz.cc"
+        SITE_DOMAIN="liviz.cc"
+        BACKEND_URL="https://api.liviz.cc"
         __EOF__
 
     - name: Build, tag, and push image to Amazon ECR
