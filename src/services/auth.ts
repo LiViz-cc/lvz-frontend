@@ -1,16 +1,9 @@
 import useSWRMutation from 'swr/mutation';
 import { post } from './fetcher';
 import { ResponseError } from './error';
+import { User } from './user';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-
-export type User = {
-  id: string;
-  email: string;
-  createdTime: number;
-  modifiedTime: number;
-  username: string;
-};
 
 export type LoginRequest = {
   email: string;
@@ -25,7 +18,7 @@ export type LoginResponse = {
 };
 
 export function useLogin() {
-  const { trigger, data, error, isMutating } = useSWRMutation<
+  const { trigger, ...rest } = useSWRMutation<
     LoginResponse,
     ResponseError,
     string,
@@ -36,9 +29,7 @@ export function useLogin() {
     login: async (email: string, password: string) => {
       await trigger({ email, password });
     },
-    data,
-    error,
-    isMutating,
+    ...rest,
   };
 }
 
@@ -51,7 +42,7 @@ export type SignupRequest = {
 export type SignupResponse = User;
 
 export function useSignup() {
-  const { trigger, data, error, isMutating } = useSWRMutation<
+  const { trigger, ...rest } = useSWRMutation<
     SignupResponse,
     ResponseError,
     string,
@@ -62,8 +53,6 @@ export function useSignup() {
     signup: async (email: string, password: string, username: string) => {
       await trigger({ email, password, username });
     },
-    data,
-    error,
-    isMutating,
+    ...rest,
   };
 }
