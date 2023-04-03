@@ -10,7 +10,7 @@ export type LoginRequest = {
   password: string;
 };
 
-export type LoginResponse = {
+export type UserWithToken = {
   user: User;
   token: {
     jwtToken: string;
@@ -19,7 +19,7 @@ export type LoginResponse = {
 
 export function useLogin() {
   const { trigger, ...rest } = useSWRMutation<
-    LoginResponse,
+    UserWithToken,
     ResponseError,
     string,
     LoginRequest
@@ -39,11 +39,9 @@ export type SignupRequest = {
   username: string;
 };
 
-export type SignupResponse = User;
-
 export function useSignup() {
   const { trigger, ...rest } = useSWRMutation<
-    SignupResponse,
+    User,
     ResponseError,
     string,
     SignupRequest
@@ -53,6 +51,19 @@ export function useSignup() {
     signup: async (email: string, password: string, username: string) => {
       await trigger({ email, password, username });
     },
+    ...rest,
+  };
+}
+
+export function useCreateAnonymous() {
+  const { trigger, ...rest } = useSWRMutation<
+    UserWithToken,
+    ResponseError,
+    string
+  >(`${BACKEND_URL}/auth/create_anonymous`, post);
+
+  return {
+    createAnonymous: trigger,
     ...rest,
   };
 }
