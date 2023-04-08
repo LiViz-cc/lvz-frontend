@@ -18,19 +18,10 @@ export type UserWithToken = {
 };
 
 export function useLogin() {
-  const { trigger, ...rest } = useSWRMutation<
-    UserWithToken,
-    ResponseError,
-    string,
-    LoginRequest
-  >(`${BACKEND_URL}/auth/login`, post);
-
-  return {
-    login: async (email: string, password: string) => {
-      await trigger({ email, password });
-    },
-    ...rest,
-  };
+  return useSWRMutation<UserWithToken, ResponseError, string, LoginRequest>(
+    `${BACKEND_URL}/auth/login`,
+    post
+  );
 }
 
 export type SignupRequest = {
@@ -40,30 +31,15 @@ export type SignupRequest = {
 };
 
 export function useSignup() {
-  const { trigger, ...rest } = useSWRMutation<
-    User,
-    ResponseError,
-    string,
-    SignupRequest
-  >(`${BACKEND_URL}/auth/signup`, post);
-
-  return {
-    signup: async (email: string, password: string, username: string) => {
-      await trigger({ email, password, username });
-    },
-    ...rest,
-  };
+  return useSWRMutation<User, ResponseError, string, SignupRequest>(
+    `${BACKEND_URL}/auth/signup`,
+    post
+  );
 }
 
 export function useCreateAnonymous() {
-  const { trigger, ...rest } = useSWRMutation<
-    UserWithToken,
-    ResponseError,
-    string
-  >(`${BACKEND_URL}/auth/create_anonymous`, post);
-
-  return {
-    createAnonymous: trigger,
-    ...rest,
-  };
+  return useSWRMutation<UserWithToken, ResponseError, string>(
+    `${BACKEND_URL}/auth/create_anonymous`,
+    post
+  );
 }

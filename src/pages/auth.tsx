@@ -8,18 +8,13 @@ type LoginFormData = {
 };
 
 export default function Auth() {
-  const {
-    login,
-    data: loginData,
-    error: loginError,
-    isMutating: processingLogin,
-  } = useLogin();
+  const login = useLogin();
   const [loginForm] = Form.useForm<LoginFormData>();
 
   async function handleLoginSubmit(data: LoginFormData) {
     const { email, password } = data;
     try {
-      await login(email, password);
+      await login.trigger({ email, password });
       message.success('Login successful');
     } catch (error) {
       message.error('Login failed');
@@ -67,7 +62,7 @@ export default function Auth() {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  loading={processingLogin}
+                  loading={login.isMutating}
                 >
                   Submit
                 </Button>
@@ -75,11 +70,11 @@ export default function Auth() {
             </Form>
             <Typography.Text>
               <Typography.Title level={3}>loginData</Typography.Title>
-              {JSON.stringify(loginData, null, 2)}
+              {JSON.stringify(login.data, null, 2)}
             </Typography.Text>
             <Typography.Text>
               <Typography.Title level={3}>loginError</Typography.Title>
-              {JSON.stringify(loginError, null, 2)}
+              {JSON.stringify(login.error, null, 2)}
             </Typography.Text>
           </section>
         </main>

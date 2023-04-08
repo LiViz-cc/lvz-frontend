@@ -23,19 +23,10 @@ export type UserChangePasswordRequest = {
 };
 
 export function useUserChangePassword(id: string) {
-  const { trigger, ...rest } = useSWRMutation<
-    User,
-    ResponseError,
-    string,
-    UserChangePasswordRequest
-  >(`${BACKEND_URL}/users/${id}/password`, post);
-
-  return {
-    userChangePassword: async (oldPassword: string, newPassword: string) => {
-      await trigger({ oldPassword, newPassword });
-    },
-    ...rest,
-  };
+  return useSWRMutation<User, ResponseError, string, UserChangePasswordRequest>(
+    `${BACKEND_URL}/users/${id}/password`,
+    post
+  );
 }
 
 export type UserChangeUsernameRequest = {
@@ -44,19 +35,10 @@ export type UserChangeUsernameRequest = {
 };
 
 export function useUserChangeUsername(id: string) {
-  const { trigger, ...rest } = useSWRMutation<
-    User,
-    ResponseError,
-    string,
-    UserChangeUsernameRequest
-  >(`${BACKEND_URL}/users/${id}/username`, post);
-
-  return {
-    userChangePassword: async (username: string, password: string) => {
-      await trigger({ username, password });
-    },
-    ...rest,
-  };
+  return useSWRMutation<User, ResponseError, string, UserChangeUsernameRequest>(
+    `${BACKEND_URL}/users/${id}/username`,
+    post
+  );
 }
 
 export type UserAuthenticateRequest = {
@@ -66,21 +48,8 @@ export type UserAuthenticateRequest = {
 };
 
 export function useUserAuthenticate(id: string) {
-  const { trigger, ...rest } = useSWRMutation<
-    User,
-    ResponseError,
-    string,
-    UserAuthenticateRequest
-  >(`${BACKEND_URL}/users/${id}/username`, post);
-
-  return {
-    userAuthenticate: async (
-      username: string,
-      password: string,
-      email: string
-    ) => {
-      await trigger({ username, password, email });
-    },
-    ...rest,
-  };
+  return useSWRMutation<User, ResponseError, string, UserAuthenticateRequest>(
+    `${BACKEND_URL}/users/${id}/username`,
+    post
+  );
 }
