@@ -68,7 +68,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
         name="password"
         rules={[
           { required: true, message: 'Please input your password.' },
-          { min: 8, message: 'Password must be at least 8 characters.' },
+          { min: 6, message: 'Password must be at least 6 characters.' },
           { max: 32, message: 'Password must be at most 32 characters.' },
         ]}
       >
