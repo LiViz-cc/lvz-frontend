@@ -1,6 +1,7 @@
 import Head from 'next/head';
-import { useLogin } from '@/services/auth';
-import { Typography, Layout, Button, Form, Input, message } from 'antd';
+import { useState } from 'react';
+import { Layout, Button } from 'antd';
+import AuthModal from '@/components/AuthModal';
 
 type LoginFormData = {
   email: string;
@@ -8,19 +9,7 @@ type LoginFormData = {
 };
 
 export default function Auth() {
-  const login = useLogin();
-  const [loginForm] = Form.useForm<LoginFormData>();
-
-  async function handleLoginSubmit(data: LoginFormData) {
-    const { email, password } = data;
-    try {
-      await login.trigger({ email, password });
-      message.success('Login successful');
-    } catch (error) {
-      message.error('Login failed');
-      console.error(error);
-    }
-  }
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -33,49 +22,8 @@ export default function Auth() {
       <Layout>
         <main>
           <section>
-            <Typography.Title level={2}>Login</Typography.Title>
-            <Form
-              form={loginForm}
-              name="login-form"
-              onFinish={handleLoginSubmit}
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-              style={{ maxWidth: 600 }}
-            >
-              <Form.Item
-                name="email"
-                label="Email"
-                rules={[{ required: true }]}
-              >
-                <Input type="email" />
-              </Form.Item>
-
-              <Form.Item
-                name="password"
-                label="Password"
-                rules={[{ required: true }]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  loading={login.isMutating}
-                >
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-            <Typography.Text>
-              <Typography.Title level={3}>loginData</Typography.Title>
-              {JSON.stringify(login.data, null, 2)}
-            </Typography.Text>
-            <Typography.Text>
-              <Typography.Title level={3}>loginError</Typography.Title>
-              {JSON.stringify(login.error, null, 2)}
-            </Typography.Text>
+            <Button onClick={() => setOpen(true)}>Open modal</Button>
+            <AuthModal open={open} onClose={() => setOpen(false)} />
           </section>
         </main>
       </Layout>
