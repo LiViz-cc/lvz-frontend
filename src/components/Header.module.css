@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+}
+
+.menu {
+  flex: 1;
+}
+
+.user {
+  flex-shrink: 0;
+}

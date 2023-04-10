@@ -3,11 +3,6 @@ import { useState } from 'react';
 import { Layout, Button } from 'antd';
 import AuthModal from '@/components/AuthModal';
 
-type LoginFormData = {
-  email: string;
-  password: string;
-};
-
 export default function Auth() {
   const [open, setOpen] = useState(false);
 

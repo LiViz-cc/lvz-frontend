@@ -1,10 +1,13 @@
 import { useRouter } from 'next/router';
-import { Layout, Menu } from 'antd';
-import { useMemo } from 'react';
+import { Layout, Menu, Button } from 'antd';
+import { useState, useMemo } from 'react';
+import AuthModal from '@/components/AuthModal';
+import styles from './Header.module.css';
 
 const { Header: AntdHeader } = Layout;
 
 export default function Header() {
+  const [authModalOpen, setAuthModalOpen] = useState(false);
   const router = useRouter();
 
   const selectedKeys = useMemo(() => {
@@ -42,14 +45,24 @@ export default function Header() {
   }
 
   return (
-    <AntdHeader>
+    <AntdHeader className={styles.header}>
       <Menu
+        className={styles.menu}
         theme="dark"
         mode="horizontal"
         items={items}
         selectedKeys={selectedKeys}
         onClick={handleMenuClick}
       />
+      <div className={styles.user}>
+        <Button ghost onClick={() => setAuthModalOpen(true)}>
+          Log in
+        </Button>
+        <AuthModal
+          open={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+        />
+      </div>
     </AntdHeader>
   );
 }
