@@ -31,7 +31,7 @@ export type SignupRequest = {
 };
 
 export function useSignup() {
-  return useSWRMutation<User, ResponseError, string, SignupRequest>(
+  return useSWRMutation<UserWithToken, ResponseError, string, SignupRequest>(
     `${BACKEND_URL}/auth/signup`,
     post
   );

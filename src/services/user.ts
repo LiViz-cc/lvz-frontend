@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 import { get, post } from './fetcher';
 import { ResponseError } from './error';
+import { UserWithToken } from './auth';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -23,10 +24,12 @@ export type UserChangePasswordRequest = {
 };
 
 export function useUserChangePassword(id: string) {
-  return useSWRMutation<User, ResponseError, string, UserChangePasswordRequest>(
-    `${BACKEND_URL}/users/${id}/password`,
-    post
-  );
+  return useSWRMutation<
+    UserWithToken,
+    ResponseError,
+    string,
+    UserChangePasswordRequest
+  >(`${BACKEND_URL}/users/${id}/password`, post);
 }
 
 export type UserChangeUsernameRequest = {
@@ -35,10 +38,12 @@ export type UserChangeUsernameRequest = {
 };
 
 export function useUserChangeUsername(id: string) {
-  return useSWRMutation<User, ResponseError, string, UserChangeUsernameRequest>(
-    `${BACKEND_URL}/users/${id}/username`,
-    post
-  );
+  return useSWRMutation<
+    UserWithToken,
+    ResponseError,
+    string,
+    UserChangeUsernameRequest
+  >(`${BACKEND_URL}/users/${id}/username`, post);
 }
 
 export type UserAuthenticateRequest = {
@@ -48,8 +53,10 @@ export type UserAuthenticateRequest = {
 };
 
 export function useUserAuthenticate(id: string) {
-  return useSWRMutation<User, ResponseError, string, UserAuthenticateRequest>(
-    `${BACKEND_URL}/users/${id}/username`,
-    post
-  );
+  return useSWRMutation<
+    UserWithToken,
+    ResponseError,
+    string,
+    UserAuthenticateRequest
+  >(`${BACKEND_URL}/users/${id}/username`, post);
 }
